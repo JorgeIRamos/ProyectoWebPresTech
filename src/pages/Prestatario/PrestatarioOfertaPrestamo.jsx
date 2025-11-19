@@ -10,7 +10,6 @@ function PrestatarioOfertaPrestamo() {
 
 
     const prestatarioId = localStorage.getItem("prestatarioId"); 
-
     useEffect(() => {
         fetch("https://localhost:7105/api/OfertaPrestamo")
             .then((res) => res.json())
@@ -50,7 +49,6 @@ const solicitarPrestamo = (id) => {
                                 <div className="mt-2 mb-4">
                                     <input
                                         className="input input-bordered w-full bg-white text-gray-700 border-gray-500/30"
-                                        defaultValue="1000000"
                                         placeholder="$250,000"
                                         onChange={(e) => setFiltroMontoInput(e.target.value)}
                                     />

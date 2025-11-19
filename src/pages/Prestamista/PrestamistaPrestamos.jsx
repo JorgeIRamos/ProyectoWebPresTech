@@ -1,48 +1,47 @@
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Slidebarprestamista from "../../components/slidebarprestamista";
 
 function PrestamistaPrestamos() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [prestamos, setPrestamos] = useState([]);
+  const [busquedaInput, setBusquedaInput] = useState("");
+  const [busquedaFinal, setBusquedaFinal] = useState("");
 
-    const prestamos = [
-    {
-      nombre: "Prestamo Personal #1234",
-      monto: "$5,000,000",
-      tasa: "2.5%",
-      cuotas: "3/12",
-      frecuencia: "Mensual",
-      vencimiento: "2026-01-15",
-      estado: "Activo",
-    },
-    {
-      nombre: "Prestamo Personal #1234",
-      monto: "$3,500,000",
-      tasa: "3.0%",
-      cuotas: "2/6",
-      frecuencia: "Semanal",
-      vencimiento: "2025-07-10",
-      estado: "Activo",
-    },
-    {
-      nombre: "Prestamo Personal #1234",
-      monto: "$2,000,000",
-      tasa: "2.0%",
-      cuotas: "24/24",
-      frecuencia: "Quincenal",
-      vencimiento: "2025-01-05",
-      estado: "Pagado",
-    },
-    {
-      nombre: "Prestamo Personal #1234",
-      monto: "$5,000,000",
-      tasa: "2.5%",
-      cuotas: "12/12",
-      frecuencia: "Quincenal",
-      vencimiento: "2025-01-20",
-      estado: "Pagado",
-    },
-  ];
+  const prestamistaId = localStorage.getItem("prestamistaId");
 
+  const obtenerPrestamosDelPrestamista = async () => {
+    try {
+      const res = await fetch(
+        `https://localhost:7105/api/Prestamo/por-prestamista/${prestamistaId}`
+      );
+
+      if (!res.ok) {
+        console.error("Error en backend");
+        return;
+      }
+
+      const data = await res.json();
+      setPrestamos(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    obtenerPrestamosDelPrestamista();
+  }, []);
+
+  const prestamosFiltrados = prestamos.filter((p) =>
+  p.saldoPrestamo
+    ?.toString()
+    .toLowerCase()
+    .includes(busquedaFinal.toLowerCase())
+);
+
+ const aplicarFiltro = () => {
+  setBusquedaFinal(busquedaInput);
+};
 
     return(
         <>
@@ -67,8 +66,10 @@ function PrestamistaPrestamos() {
           type="text"
           placeholder="Buscar préstamos..."
            className="input input-info mx-1 lg:ml-20 px-5 bg-white text-black"
+           onChange={(e) => setBusquedaInput(e.target.value)}
         />
-        <button className="btn btn-outline btn-info lg:mx-8 lg:px-6 ">Filtros</button>
+        <button className="btn btn-outline btn-info lg:mx-8 lg:px-6 " onClick={aplicarFiltro}>Filtros</button>
+        <button className="btn btn-outline btn-secondary lg:px-6 " onClick={() => {setBusquedaFinal(""), setBusquedaInput("")}} >Limpiar</button>
         </div>
       
 
@@ -78,25 +79,26 @@ function PrestamistaPrestamos() {
           <tr className="text-black">
             <th>Nombre</th>
             <th>Monto</th>
-            <th>Tasa</th>
+            <th>Saldo restante</th>
             <th>Cuotas</th>
-            <th>Frecuencia</th>
-            <th>Vencimiento</th>
+            <th>Interes</th>
+            <th>Proximo Pago</th>
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {prestamos.map((p, index) => (
+        {prestamosFiltrados.length > 0 ? (
+          prestamosFiltrados.map((p, index) => (
             <tr key={index} className="text-base">
-              <td>{p.nombre}</td>
-              <td className="bold">{p.monto}</td>
-              <td>{p.tasa}</td>
-              <td>{p.cuotas}</td>
-              <td>{p.frecuencia}</td>
-              <td>{p.vencimiento}</td>
+              <td>Prestamo {p.categoriaPrestamo} #{p.ofertaPrestamoId}</td>
+              <td>{p.saldoPrestamo}</td>
+              <td>{p.saldoRestante}</td>
+              <td>{p.cuotasRestantes} / {p.cuotasTotales}</td>
+              <td>{p.tasas}%  </td>
+              <td>{p.fechaProxPago?.split("T")[0]}</td>
               <td>
-                <span className={`estado ${p.estado.toLowerCase()}`}>
+                <span>
                   {p.estado}
                 </span>
               </td>
@@ -104,7 +106,14 @@ function PrestamistaPrestamos() {
                 <button className="btn btn-outline btn-accent">Ver</button>
               </td>
             </tr>
-          ))}
+          ))
+           ) : (
+                  <tr>
+                    <td colSpan="8" className="text-center text-gray-500 py-6">
+                      No hay préstamos registrados.
+                    </td>
+                  </tr>
+                )}
         </tbody>
       </table>
       </div>

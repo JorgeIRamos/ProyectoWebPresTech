@@ -98,14 +98,13 @@ function PrestamistaPrestamos() {
             </button>
 
             <button
-              className="btn btn-outline"
+              className="btn btn-outline btn-secondary"
               onClick={manejarLimpiar}
             >
               Limpiar
             </button>
           </div>
 
-          {/* TABLA */}
           <div className="overflow-x-auto lg:px-20">
             <table className="table w-full">
               <thead>
@@ -122,8 +121,7 @@ function PrestamistaPrestamos() {
               </thead>
 
               <tbody>
-                {prestamosFiltrados.length > 0 ? (
-                  prestamosFiltrados.map((p, index) => (
+                  {prestamosFiltrados.map((p, index) => (
                     <tr key={index} className="text-base">
                       <td className="font-bold h-10 ">{`Prestamo ${p.categoria} #${p.ofertaPrestamoId}`}</td>
                       <td className="capitalize">{p.categoria}</td>
@@ -136,14 +134,7 @@ function PrestamistaPrestamos() {
                         <button className="btn btn-outline btn-accent">Ver</button>
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="8" className="text-center py-6 text-gray-500">
-                      No hay ofertas que coincidan con el filtro
-                    </td>
-                  </tr>
-                )}
+                  ))}
               </tbody>
             </table>
           </div>
