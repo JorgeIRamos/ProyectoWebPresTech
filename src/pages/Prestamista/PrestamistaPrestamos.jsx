@@ -83,6 +83,7 @@ function PrestamistaPrestamos() {
             <th>Cuotas</th>
             <th>Interes</th>
             <th>Proximo Pago</th>
+            <th>Frecuencia</th>
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -96,14 +97,25 @@ function PrestamistaPrestamos() {
               <td>{p.saldoRestante}</td>
               <td>{p.cuotasRestantes} / {p.cuotasTotales}</td>
               <td>{p.tasas}%  </td>
-              <td>{p.fechaProxPago?.split("T")[0]}</td>
+              <td>{
+                    p.estado === "Pagado"
+                      ? "Finalizado"
+                      : p.fechaProxPago
+                        ? new Date(p.fechaProxPago).toLocaleDateString("es-CO", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit"
+                          })
+                        : "—"
+                  }</td>
+              <td>{p.frecuencia}</td>
               <td>
                 <span>
                   {p.estado}
                 </span>
               </td>
               <td>
-                <button className="btn btn-outline btn-accent">Ver</button>
+                <button className="btn btn-outline btn-accent" onClick={() => navigate(`/prestamista/prestamos/${p.prestamoId}`)}>Ver</button>
               </td>
             </tr>
           ))

@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Slidebarprestamista from "../../components/slidebarprestamista";
 
-function PrestamistaOfertaPrestamo() {
+function PrestamistaEditarOferta() {
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [form, setForm] = useState({
         categoria: "",
@@ -14,6 +15,33 @@ function PrestamistaOfertaPrestamo() {
         frecuencia: "",
         descripcion: ""
     });
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const cargarOferta = async () => {
+            try {
+                const resp = await fetch(`https://localhost:7105/api/OfertaPrestamo/${id}`);
+                const data = await resp.json();
+
+                setForm({
+                    categoria: data.categoria,
+                    montoMin: data.montoMin,
+                    montoMax: data.montoMax,
+                    interes: data.interes,
+                    cuotas: data.cuotas,
+                    frecuencia: data.frecuencia,
+                    descripcion: data.descripcion
+                });
+
+                setLoading(false);
+            } catch (error) {
+                console.error("Error al cargar la oferta:", error);
+            }
+        };
+
+        cargarOferta();
+    }, [id]);
 
     const handleChange = (e) => {
         setForm({
@@ -26,54 +54,48 @@ function PrestamistaOfertaPrestamo() {
         e.preventDefault();
 
         if (parseFloat(form.montoMin) > parseFloat(form.montoMax)) {
-    alert("El monto mínimo no puede ser mayor al monto máximo");
-    return;
+            alert("El monto mínimo no puede ser mayor al monto máximo");
+            return;
+        }
 
-}
         try {
             const prestamistaId = localStorage.getItem("prestamistaId");
 
-            if (!prestamistaId) {
-                alert("Error: No se encontró tu PrestamistaId. Debes iniciar sesión.");
-                return;
-            }
-
-            
-
             const payload = {
-            Categoria: form.categoria,
-             MontoMin: parseFloat(form.montoMin),
-             MontoMax: parseFloat(form.montoMax),
-             Interes: parseFloat(form.interes),
-             Cuotas: parseInt(form.cuotas),
-             Frecuencia: form.frecuencia,
-            Descripcion: form.descripcion,
-             PrestamistaId: Number(prestamistaId)
-};
+                ofertaPrestamoId: Number(id),
+                categoria: form.categoria,
+                montoMin: parseFloat(form.montoMin),
+                montoMax: parseFloat(form.montoMax),
+                interes: parseFloat(form.interes),
+                cuotas: parseInt(form.cuotas),
+                frecuencia: form.frecuencia,
+                descripcion: form.descripcion,
+                prestamistaId: Number(prestamistaId)
+            };
 
-
-            const resp = await fetch("https://localhost:7105/api/OfertaPrestamo", {
-                method: "POST",
+            const resp = await fetch(`https://localhost:7105/api/OfertaPrestamo/${id}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(payload)
             });
 
-            console.log("PrestamistaId enviado:", Number(prestamistaId));
-
             if (!resp.ok) {
-                alert("Error al crear oferta");
+                alert("Error al actualizar la oferta");
+                return;
             }
 
-            alert("Oferta creada correctamente");
-            navigate("/Prestamista/ofertasprestamos");
+            alert("Oferta actualizada correctamente");
+            navigate("/Prestamista/Prestamos");
 
         } catch (error) {
             console.error(error);
-            alert("No se pudo crear la oferta");
+            alert("No se pudo actualizar la oferta");
         }
     };
+
+    if (loading) return <p className="text-center mt-10">Cargando datos...</p>;
 
     return (
         <>
@@ -82,8 +104,8 @@ function PrestamistaOfertaPrestamo() {
             <div className="min-h-screen bg-linear-to-tl from-gray-300 to-gray-100 p-6">
                 <div className="max-w-5xl mx-auto">
                     <header className="mb-6">
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Crear Préstamo</h1>
-                        <p className="text-gray-600">Registra un nuevo préstamo</p>
+                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Editar Oferta</h1>
+                        <p className="text-gray-600">Modifica los datos de esta oferta de préstamo</p>
                     </header>
 
                     <form
@@ -99,7 +121,6 @@ function PrestamistaOfertaPrestamo() {
                                 className="select select-bordered w-full md:w-96 bg-white border-gray-700/30"
                                 required
                             >
-                                <option value="" disabled>Seleccione una categoría</option>
                                 <option value="personal">Personal</option>
                                 <option value="vehicular">Vehicular</option>
                                 <option value="hipotecario">Hipotecario</option>
@@ -170,7 +191,6 @@ function PrestamistaOfertaPrestamo() {
                                 className="select select-bordered w-full md:w-64 bg-white border-gray-700/30"
                                 required
                             >
-                                <option value="" disabled>Seleccione una frecuencia</option>
                                 <option value="Semanal">Semanal</option>
                                 <option value="Quincenal">Quincenal</option>
                                 <option value="Mensual">Mensual</option>
@@ -185,7 +205,7 @@ function PrestamistaOfertaPrestamo() {
                                 value={form.descripcion}
                                 onChange={handleChange}
                                 className="textarea textarea-bordered w-full bg-white border-gray-700/30"
-                                placeholder="Agregue una descripción del préstamo (opcional)"
+                                placeholder="Descripción del préstamo"
                             ></textarea>
                         </div>
 
@@ -193,7 +213,7 @@ function PrestamistaOfertaPrestamo() {
                             <button
                                 type="button"
                                 className="btn btn-secondary bg-red-400 hover:bg-red-700"
-                                onClick={() => navigate(-1)}
+                                onClick={() => navigate("/Prestamista/Prestamos")}
                             >
                                 Cancelar
                             </button>
@@ -202,7 +222,7 @@ function PrestamistaOfertaPrestamo() {
                                 type="submit"
                                 className="btn btn-info bg-cyan-500 hover:bg-cyan-700 text-white"
                             >
-                                Crear Oferta de Préstamo
+                                Actualizar Oferta
                             </button>
                         </div>
                     </form>
@@ -212,4 +232,4 @@ function PrestamistaOfertaPrestamo() {
     );
 }
 
-export default PrestamistaOfertaPrestamo;
+export default PrestamistaEditarOferta;

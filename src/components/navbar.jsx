@@ -29,7 +29,7 @@ function navbar() {
   </div>
   <div className="navbar-end">
     <a className="btn lg:mr-3 mr-0 bg-cyan-500 hover:bg-blue-600"  onClick={() => navigate("/Login")}>Iniciar Sesion</a>
-    <a className="btn lg:mr-3 mr-0 bg-gray-900 border-cyan-500 text-cyan-500 hover:bg-blue-600 hover:text-white hover:border-blue-600">Registrarse</a>
+    <a className="btn lg:mr-3 mr-0 bg-gray-900 border-cyan-500 text-cyan-500 hover:bg-blue-600 hover:text-white hover:border-blue-600" onClick={() => navigate("/Register")}>Registrarse</a>
   </div>
 </div>
     )

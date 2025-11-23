@@ -63,7 +63,7 @@ function Slidebarprestamista() {
                         <li><a href="/prestamista/ofertasprestamos" className="mb-3 text-base font-extralight hover:bg-blue-500">Ofertas de Préstamos</a></li>
                         <li><a href="/prestamista/prestamos" className="mb-3 text-base font-extralight hover:bg-blue-500">Préstamos</a></li>
                         <li><a href="/prestamista/clientes" className="mb-3 text-base font-extralight hover:bg-blue-500">Clientes</a></li>
-                        <li><a href="/prestamista/reportes" className="mb-3 text-base font-extralight hover:bg-blue-500">Reportes</a></li>
+                        <li><a href="/prestamista/transacciones" className="mb-3 text-base font-extralight hover:bg-blue-500">Transacciones</a></li>
                     </ul>
 
                     <div className="mt-4">

@@ -57,6 +57,10 @@ function PrestamistaPrestamos() {
     setFiltroAplicado("");
   };
 
+  const verPrestamo = (id) => {
+    navigate(`/prestamista/oferta/${id}`);
+};
+
   return (
     <>
       <Slidebarprestamista />
@@ -121,7 +125,8 @@ function PrestamistaPrestamos() {
               </thead>
 
               <tbody>
-                  {prestamosFiltrados.map((p, index) => (
+                {prestamosFiltrados.length > 0 ? (
+                  prestamosFiltrados.map((p, index) => (
                     <tr key={index} className="text-base">
                       <td className="font-bold h-10 ">{`Prestamo ${p.categoria} #${p.ofertaPrestamoId}`}</td>
                       <td className="capitalize">{p.categoria}</td>
@@ -131,10 +136,17 @@ function PrestamistaPrestamos() {
                       <td>{p.cuotas}</td>
                       <td className="capitalize">{p.frecuencia}</td>
                       <td>
-                        <button className="btn btn-outline btn-accent">Ver</button>
+                        <button className="btn btn-outline btn-accent" onClick={() => verPrestamo(p.ofertaPrestamoId)}>Ver</button>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                  ) : (
+                  <tr>
+                    <td colSpan="8" className="text-center text-gray-500 py-6">
+                      No hay ofertas de prestamos registrados.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

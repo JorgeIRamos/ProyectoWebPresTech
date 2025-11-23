@@ -51,22 +51,10 @@ function Home() {
 
           <div className="card w-80 mb-2 bg-white shadow-md mx-1 transform transition duration-300 hover:scale-105 hover:shadow-xl">
           <div className="card-body">
-            <div className="bg-gray-400 w-9 h-9 text-2xl xl rounded-lg text-center">🔔</div>
-            <h3 className="card-title">Alertas Automáticas</h3>
-            <p>
-              Recibe notificaciones sobre pagos pendientes y vencidos
-              automáticamente.
-            </p>
-          </div>
-          </div>
-
-          <div className="card w-80 mb-2 bg-white shadow-md mx-1 transform transition duration-300 hover:scale-105 hover:shadow-xl">
-          <div className="card-body">
             <div className="bg-gray-400 w-9 h-9 text-2xl xl rounded-lg text-center">📈</div>
             <h3 className="card-title">Reportes Financieros</h3>
             <p>
-              Genera reportes detallados de préstamos, pagos y estadísticas en
-              PDF o Excel.
+              Poder consultar de manera exacta todas las transferencia de sus pagos ademas de poder ver en detalle los prestamos creados
             </p>
           </div>
           </div>
