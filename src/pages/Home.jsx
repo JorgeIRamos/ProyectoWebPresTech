@@ -129,7 +129,7 @@ function Home() {
         </div>
       </section>
 
-      <footer className="footer sm:footer-horizontal text-base-content p-10 bg-blue-950 text-white">
+      <footer className="footer sm:footer-horizontal  p-10 bg-blue-950 text-white">
   <nav>
     <h6 className="footer-title">PresTech</h6>
     <a className="link link-hover">Plataforma digital para la gestión eficiente de préstamos personales y empresariales.</a>

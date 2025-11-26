@@ -1,8 +1,10 @@
 import Slidebarprestatario from "../../components/slidebarprestatario"
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function PrestatarioHistorial() {
   const [transacciones, setTransacciones] = useState([]);
+  const navigate = useNavigate();
 
   const prestatarioId = localStorage.getItem("prestatarioId");
 
@@ -41,15 +43,19 @@ function PrestatarioHistorial() {
           
           <div key={transacciones.transaccionId} className="flex items-start justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors border-gray-200 bg-white text-black shadow-sm">
             <div className="flex flex-col gap-1">
-              <h3 className="text-lg font-semibold text-gray-900">{new Date(pagos.fechaPago).toLocaleDateString()}</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Prestamo {pagos.categoria} #{pagos.ofertaPrestamoId}</h3>
               <div className="flex gap-4 text-sm text-gray-600">
-                <p>{pagos.tipoPago}</p>
+                <p>Fecha de pago: {new Date(pagos.fechaPago).toLocaleDateString()}</p>
               </div>
             </div>
 
             <div className="flex flex-col items-end gap-2">
               <div className="text-right">
-                <p className="text-lg font-semibold text-gray-900">${pagos.montoPagado}</p>
+                <p className="text-lg font-semibold text-gray-900">${pagos.monto}</p>
+                <p className="text-sm text-gray-600">{pagos.tipoTransaccion}</p>
+              <div className="flex gap-4 text-sm text-gray-600 justify-end">
+                <button className="btn btn-primary mt-3 h-8" onClick={() => navigate(`/prestatario/prestamos/${pagos.prestamoId}`)}>VER PRESTAMO</button>
+              </div>
               </div>
             </div>
           </div>

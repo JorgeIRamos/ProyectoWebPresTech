@@ -100,7 +100,7 @@ function Register() {
         </label>
 
         <label> Identificación:
-          <input type="text" name="identificacion" onChange={handleChange} className="input input-info mb-3 bg-white text-black" required />
+          <input type="number" name="identificacion" onChange={handleChange} className="input input-info mb-3 bg-white text-black" required />
         </label>
 
         <label> Email:

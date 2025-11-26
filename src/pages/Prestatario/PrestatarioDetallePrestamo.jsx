@@ -144,9 +144,11 @@ function PrestatarioDetallePrestamo(){
             </div>
 
             <div className="text-black flex justify-center">
-                <button className="btn btn-primary px-50 mt-5" onClick={() => navigate(`/Prestatario/Historial`)}>Ver historial de pagos</button>
+                <button className="btn btn-primary px-20 mt-5 mx-5" onClick={() => navigate(`/Prestatario/Historial`)}>Ver historial de pagos</button>
+                <button className="btn btn-outline btn-secondary px-20 mt-5 mx-5" onClick={() => navigate(`/prestatario/pagos`)} disabled={prestamo?.saldoRestante == 0}>Realizar pago</button>
             </div>
         </div>
+
 
         </div>
         </>

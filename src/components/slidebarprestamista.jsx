@@ -56,7 +56,7 @@ function Slidebarprestamista() {
             <div className="drawer-side">
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
 
-                <div className="flex flex-col justify-between h-full w-80 bg-gray-900 text-base-content p-4 text-white">
+                <div className="flex flex-col justify-between h-full w-80 bg-gray-900 p-4 text-white">
                     <ul className="menu">
                         <li className="mb-10 text-3xl font-semibold text-center">Menu Principal</li>
                         <li><a href="/prestamista/dashboard" className="mb-3 text-base font-extralight hover:bg-blue-500">Dashboard</a></li>

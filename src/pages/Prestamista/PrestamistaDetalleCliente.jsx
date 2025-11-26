@@ -43,6 +43,16 @@ function PrestamistaDetalleCliente() {
   return "No especificado";
 };
 
+ function contactar(prestatario) {
+    const telefono = detalle.telefono;
+    const fecha = new Date(prestatario.fechaProxPago).toLocaleDateString("es-CO");
+    const nombre = detalle.nombre;
+
+    const mensaje = `Hola ${nombre}, tu próxima fecha de pago es el día ${fecha}. no se te olvide de realizar tu pago a tiempo. ¡Gracias!`;
+    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
+  }
+
   return (
     <>
   <Slidebarprestamista />
@@ -122,12 +132,14 @@ function PrestamistaDetalleCliente() {
         <div className="bg-white shadow-xl rounded-xl p-6 ">
           {detalle.prestamos.map((p) => (
             <div key={p.prestamoId} className="border p-4 rounded mb-4 border-gray-300">
-              <p className="font-bold text-xl">Préstamo {p.categoria} #{p.ofertaPrestamoId}</p>
-              <p><strong>Saldo: </strong>${p.saldoPrestamo}</p>
-              <p><strong>Restante: </strong>${p.saldoRestante}</p>
-              <p><strong>Estado: </strong>{p.estado}</p>
-              <p><strong>Fecha inicio: </strong>{new Date(p.fechaInicio).toLocaleDateString("es-CO")}</p>
+              <p className="font-bold text-xl mb-5">Préstamo {p.categoria} #{p.ofertaPrestamoId}</p>
+              <p className="mb-2"><strong>Saldo: </strong>${p.saldoPrestamo}</p>
+              <p className="mb-2"><strong>Restante: </strong>${p.saldoRestante}</p>
+              <p className="mb-2"><strong>Estado: </strong>{p.estado}</p>
+              <p className="mb-2"><strong>Fecha inicio: </strong>{new Date(p.fechaInicio).toLocaleDateString("es-CO")}</p>
+              <p className="mb-2"><strong>Fecha proximo pago: </strong>{new Date(p.fechaProxPago).toLocaleDateString("es-CO")}</p>
               <button className="btn btn-primary mt-5" onClick={() => navigate(`/prestamista/prestamos/${p.prestamoId}`)}>Ver prestamo</button>
+              <button className="btn btn-outline btn-success mt-5 mx-5" onClick={() => contactar(p)}>Mandar recordatorio via WhatsApp</button>
             </div>
           ))}
         </div>

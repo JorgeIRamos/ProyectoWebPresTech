@@ -98,7 +98,7 @@ function PrestatarioPagos() {
 
         setSelectedPrestamo(prestamo);
         setCuota(calcularCuota(prestamo));
-        setProximoPago(calcularProximoPago(prestamo.fechaProxPago, prestamo.frecuencia));
+        calcularProximoPago(prestamo.fechaProxPago, prestamo.frecuencia);
     };
 
         const handleConfirmarPago = async (e) => {
@@ -164,13 +164,13 @@ function PrestatarioPagos() {
                                                 {p.estado}
                                             </span>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-4 text-sm">
+                                        <div className="grid grid-cols-2 gap-5 text-sm">
                                             <div>
                                                 <p className="text-gray-600">Monto total</p>
                                                 <p className="font-semibold">{p.saldoPrestamo}</p>
                                             </div>
                                             <div>
-                                                <p className="text-gray-600">Pagado</p>
+                                                <p className="text-gray-600">Monto restante</p>
                                                 <p className="font-semibold">{p.saldoRestante}</p>
                                             </div>
                                             <div>
@@ -180,6 +180,11 @@ function PrestatarioPagos() {
                                             <div>
                                                 <p className="text-gray-600">Próxima cuota</p>
                                                 <p className="font-semibold">{calcularCuota(p)} </p>
+                                            </div>
+
+                                            <div>
+                                                <p className="text-gray-600">Frecuencia del prestamo</p>
+                                                <p className="font-semibold">{p.frecuencia} </p>
                                             </div>
                                         </div>
                                     </div>

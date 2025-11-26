@@ -32,6 +32,25 @@ function PrestamistaDetallePrestamo(){
     
     const tieneTransaccion = prestamo?.fechaPago && prestamo.fechaPago !== "0001-01-01T00:00:00";
 
+    function contactar() {
+    if (!prestamo) return;
+
+    const telefono = prestamo.telefonoPrestatario;
+    const fecha = prestamo.estado === "Pagado"
+        ? "finalizado"
+        : (prestamo.fechaProxPago
+            ? new Date(prestamo.fechaProxPago).toLocaleDateString("es-CO")
+            : "sin definir");
+
+    const nombre = prestamo.nombrePrestatario;
+
+    const mensaje = `Hola ${nombre}, tu próxima fecha de pago es el día ${fecha}. No olvides realizar tu pago a tiempo. ¡Gracias!`;
+
+    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
+}
+
+
     return(
         <>
         <Slidebarprestamista />
@@ -109,7 +128,7 @@ function PrestamistaDetallePrestamo(){
                 </div>
             </div>
 
-            <div className="text-black bg-white rounded-xl shadow-md ">
+            <div className="text-black bg-white rounded-xl shadow-md pb-30">
                 <div className="mx-5 my-5">
                 <h2 className=" font-sans mt-2 text-xl mb-8">Proceso de cuotas</h2>
                 <p className="text-neutral-600 font-light">
@@ -145,8 +164,10 @@ function PrestamistaDetallePrestamo(){
             </div>
 
             <div className="text-black flex justify-center">
-                <button className="btn btn-primary mx-5 mt-5 px-30" onClick={() => navigate(`/prestamista/cliente/${prestamo.prestatarioId}`)}>Ver cliente</button>
-                <button className="btn btn-outline btn-secondary mx-5 mt-5 px-30  " onClick={() => navigate(`/prestamista/transacciones`)}>Ver transacciones</button>
+                <button className="btn btn-primary mx-5 mt-5 px-10" onClick={() => navigate(`/prestamista/cliente/${prestamo.prestatarioId}`)}>Ver cliente</button>
+                <button className="btn btn-outline btn-secondary mx-5 mt-5 px-10 " onClick={() => navigate(`/prestamista/transacciones`)}>Ver transacciones</button>
+                <button className="btn btn-outline btn-success mx-5 mt-5 px-10 " onClick={contactar}>Mandar recordatorio por WhatsApp</button>
+
             </div>
         </div>
 
