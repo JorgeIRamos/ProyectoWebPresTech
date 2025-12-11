@@ -29,10 +29,10 @@ npm (incluido con Node.js)
 
 ## IMPORTANTE
 
-Para que esto funcione es necesario descargar el Backend 
+Para que esto funcione es necesario descargar el Backend https://github.com/JorgeIRamos/PresTech-BackEnd
 
 ## Pasos de Instalación
-Clonar el Repositorio: https://github.com/JorgeIRamos/PresTech-BackEnd
+Clonar el Repositorio:
 
 ```bash
   git clone https://github.com/JorgeIRamos/ProyectoPresTech.git
