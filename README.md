@@ -27,8 +27,12 @@ Node.js: Versión 18+ (Recomendado)
 
 npm (incluido con Node.js)
 
+## IMPORTANTE
+
+Para que esto funcione es necesario descargar el Backend 
+
 ## Pasos de Instalación
-Clonar el Repositorio:
+Clonar el Repositorio: https://github.com/JorgeIRamos/PresTech-BackEnd
 
 ```bash
   git clone https://github.com/JorgeIRamos/ProyectoPresTech.git
